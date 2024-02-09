@@ -1,50 +1,49 @@
 
 //This routine is called every time input 8, 9, 10 or 11 changed state ISR (PCINTO_vect) {
-//Channel 1-----
-if (last_channel_1 == 0 && PINB & B00000001 ) {
-last_channel_1 = 1;
-timer_1 micros();
-//Input 8 changed from 0 to 1 //Remember current input state //Set timer_1 to micros()
-else if(last_channel_1 == 1 && ! (PINB & B00000001)) { //Input 8 changed from 1 to 0 last_channel_1 = 0;
-=
-micros() timer_1;
--
-receiver_input_channel_1
-//Channel 2=======
-if(last_channel_2 = 0 && PINB & B00000010 ) { last_channel_2 = 1;
+//Channel 1====
+if(last_channel_1 == 0 && PINB & B00000001 ) { last_channel_1 = 1;
 }
-timer_2 micros();
-//Remember current input state //Channel 1 is micros() timer_1
--
-//Input 9 changed from 0 to 1 //Remember current input state //Set timer_2 to micros ()
-else if(last_channel_2 == 1 && ! (PINB & B00000010)){ //Input 9 changed from 1 to 0
+timer_1 = micros();
+else if(last_channel_1 == 1 && (PINB & B00000001)) {
 }
-last_channel_2 = 0;
+last_channel_1
+= 0;
+receiver_input_channel_1 = micros ()
+//Channel 2‒‒‒‒‒‒‒
+- timer_1;
+if(last_channel_2 == 0 && PINB & B00000010 ){ last_channel_2 = 1;
+timer_2 = micros();
+}
+//Input 8 changed from 0 to 1 //Remember current input state //Set timer_1 to micros ()
+//Input 8 changed from 1 to 0 //Remember current input state //Channel 1 is micros()
+-
+timer_1
+//Input 9 changed from 0 to 1 //Remember current input state. //Set timer_2 to micros()
+else if(last_channel_2 == 1 && ! (PINB & B00000010)) { //Input 9 changed from 1 to 0 last_channel_2 = 0;
+}
+-
 receiver_input_channel_2 = micros () timer_2;
-if (last_channel_3 == 0 && PINB & B00000100){
-//Channel 3======
-last_channel_3 = 1;
-timer_3 = micros();
-====
+//Channel 3=======
 //Remember current input state //Channel 2 is micros() timer_2
+if(last_channel_3 == 0 && PINB & B00000100 ) { last_channel_3 = 1;
+timer_3
+micros();
+}
+//Input 10 changed from 0 to 1 //Remember current input state //Set timer_3 to micros()
+else if(last_channel_3 == 1 && ! (PINB & B00000100)) { //Input 10 changed from 1 to 0 last_channel_3= 0;
+}
+=
+receiver_input_channel_3 micros () timer_3;
+//Channel 4=======
+if(last_channel_4 == 0 && PINB & B00001000 ){ last_channel_4 = 1;
+timer_4
+}
+micros();
+//Remember current input state //Channel 3 is micros()
 -
-}
-//Input 10 changed from 0 to 1 //Remember current input state //Set timer_3 to micros ()
-else if(last_channel_3 == 1 && ! (PINB & B00000100)) { //Input 10 changed from 1 to 0
-}
-last_channel_3 = 0;
-receiver_input_channel_3 = micros() timer_3;
-//Remember current input state //Channel 3 is micros() timer_3
-//Channel 4========
-=====
-if (last_channel_4
-==
-0 && PINB & B00001000 ) {
-last_channel_4 = 1;
-timer_4 = micros();
+timer_3
 //Input 11 changed from 0 to 1 //Remember current input state //Set timer_4 to micros()
-}
 else if(last_channel_4 == 1 && ! (PINB & B00001000)) { //Input 11 changed from 1 to 0 last_channel_4 = 0;
--
-receiver_input_channel_4 = micros() timer_4;
-//Remember current input state //Channel 4 is micros() timer_4
+receiver_input_channel_4 micros () timer 4;
+}
+//Remember current input state //Channel 4 is micros() - timer_4
