@@ -1,0 +1,38 @@
+float caloff =0;
+int Samples2=0;
+float xn1 = 0;
+float yn1 = 0;
+void setup() {
+  Serial.begin(9600);
+   for (int x = 0; x < 150; x++) {  // Get 150 samples
+     caloff= analogRead(A0);     // Read current sensor values
+     Samples2 = Samples2 + caloff;  // Add samples together
+    delay(3); // let ADC settle before following sample 3ms
+  }
+  
+}
+ int cal=-233;
+void loop() {
+
+  unsigned int x = 0;
+  float AcsValue = 0.0, Samples = 0.0, AvgAcs = 0.0, AcsValueF = 0.0;
+  float Sensitivity = 0.185;
+ 
+  for (int x = 0; x < 100; x++) {  // Get 150 samples
+    AcsValue = analogRead(A0);     // Read current sensor values
+    Samples = Samples + AcsValue;  // Add samples together
+    delay(1); // let ADC settle before following sample 3ms
+  }
+  AvgAcs = Samples / 100.0;      // Taking Average of Samples
+  AcsValueF = (2.5 - (AvgAcs * (5.12 / 1024.0)) ) / Sensitivity;
+  float filteredSignal= 0.969*yn1+0.0155*AcsValueF+0.0155*xn1;
+  //Serial.println(filteredSignal);
+  
+  xn1=AcsValueF;
+  yn1=filteredSignal;
+  
+  Serial.print((filteredSignal*1000)-cal);
+  Serial.print("   ");
+  Serial.println((AcsValueF*1000)-cal);
+  delay(0);
+}
