@@ -1,6 +1,4 @@
 #include   "NewPing.h"
-#include <PIDController.h>
-PIDController pid; // Create an instance of the PID controller class, called "pid"
 
 #include <PID_v1.h>
 double Setpoint, Input, Output;
@@ -56,14 +54,6 @@ void setup() {
   sei();                      //Enable back the interrupts  
                     
   OCR1A=(10.5*1000)/16;       //set ocrc1a to 10.5 millisec compare A match
-  
-
-
-  pid.begin(80 );             // initialize the PID instance
-  pid.setpoint(0);        // The "goal" the PID controller tries to "reach"
-  pid.tune(15, 9,30);     // Tune the PID, arguments: kP, kI, kD
-  pid.limit(1350, 1500);
-
   
   Setpoint = 70;
   myPID.SetMode(AUTOMATIC);
