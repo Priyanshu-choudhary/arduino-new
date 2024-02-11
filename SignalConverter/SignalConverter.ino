@@ -2,6 +2,12 @@
 #include <PIDController.h>
 PIDController pid; // Create an instance of the PID controller class, called "pid"
 
+#include <PID_v1.h>
+double Setpoint, Input, Output;
+double Kp=1.07, Ki=10, Kd=1.08;
+PID myPID(&Input, &Output, &Setpoint, Kp, Ki, Kd, DIRECT);
+
+
 float xn1 = 0;
 float yn1 = 0;
 #define TRIGGER_PIN A3
@@ -57,6 +63,10 @@ void setup() {
   pid.setpoint(0);        // The "goal" the PID controller tries to "reach"
   pid.tune(15, 9,30);     // Tune the PID, arguments: kP, kI, kD
   pid.limit(1350, 1500);
+
+  
+  Setpoint = 70;
+  myPID.SetMode(AUTOMATIC);
 }
 
 void loop() {
@@ -71,12 +81,14 @@ void loop() {
   xn1=avg;
   yn1=filteredSignal;
 
-  if((int)filteredSignal>2){
-     auto_YAW = pid.compute((int)filteredSignal);
-     
+  Input =(int)filteredSignal;
+  myPID.Compute();
+
+  if((int)filteredSignal>0.5){
+     auto_YAW = Output;
     }
-    else{
- auto_YAW=1350;
+  else{
+    auto_YAW=1350;
     }
 
    Serial.print((int)filteredSignal);
