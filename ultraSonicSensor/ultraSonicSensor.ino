@@ -9,7 +9,7 @@ float yn1 = 0;
 NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
 int led=1;
 void setup() {
-  //Serial.begin(9600);
+  Serial.begin(9600);
   pinMode(A5,OUTPUT);
 }
 
@@ -25,10 +25,10 @@ void loop() {
   int noice=sonar.ping_cm();
  
   
-  //Serial.print(noice);
-  //Serial.print("  ");
+  Serial.print(noice);
+  Serial.print("  ");
   float filteredSignal= 0.969*yn1+0.0155*noice+0.0155*xn1;
-  //Serial.println(filteredSignal);
+  Serial.println(filteredSignal);
   
   xn1=noice;
   yn1=filteredSignal;

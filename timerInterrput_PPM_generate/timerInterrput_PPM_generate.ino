@@ -21,7 +21,7 @@ void setup() {
   sei();       //Enable back the interrupts  
                     
   OCR1A=(10.5*1000)/16;        
-
+Serial.begin(115200);
 }
 
 void loop() {
@@ -37,6 +37,7 @@ ISR(TIMER1_COMPA_vect){
   TCNT1=0;
   OCR1B = (400)/16; //400 us pulse to start a channel
   PORTD |=B00000100;//Write 1 on pin D3
+  Serial.println("1");
  switch (ch){
   case 1:
   OCR1A=(ch1Value)/16;
@@ -71,6 +72,6 @@ ISR(TIMER1_COMPA_vect){
 }
 
 ISR(TIMER1_COMPB_vect){
-  
+  Serial.println("0");
   PORTD &=B00000000;  //Write 0 on pin D3
 }

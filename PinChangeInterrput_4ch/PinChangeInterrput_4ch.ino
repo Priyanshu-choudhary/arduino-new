@@ -1,3 +1,4 @@
+
 /*One channel PWM read example; author: ELECTRONOOBS 
  * Subscribe: http://www.youtube.com/c/ELECTRONOOBS
  * Thank you
@@ -5,17 +6,15 @@
 
 
 //We create variables for the time width values of each PWM input signal
-unsigned long counter_1, counter_2, counter_3, counter_4, current_count,counter_5,counter_6;
+unsigned long counter_1, counter_2, counter_3, counter_4, current_count;
 
 //We create 4 variables to stopre the previous value of the input signal (if LOW or HIGH)
-byte last_CH1_state, last_CH2_state, last_CH3_state, last_CH4_state,last_CH5_state,last_CH6_state;
+byte last_CH1_state, last_CH2_state, last_CH3_state, last_CH4_state;
 
 //To store the 1000us to 2000us value we create variables and store each channel
 int input_YAW;      //In my case channel 4 of the receiver and pin D12 of arduino
 int input_PITCH;    //In my case channel 2 of the receiver and pin D9 of arduino
-int input_ROLL; 
-int input_aux1;    //In my case channel 2 of the receiver and pin D9 of arduino
-int input_aux2;     //In my case channel 1 of the receiver and pin D8 of arduino
+int input_ROLL;     //In my case channel 1 of the receiver and pin D8 of arduino
 int input_THROTTLE; //In my case channel 3 of the receiver and pin D10 of arduino
 
 
@@ -30,21 +29,17 @@ void setup() {
   //All Arduino (Atmega) digital pins are inputs when you begin...
   */  
    
-  PCICR |= (1 << PCIE0); 
-                                               
+  PCICR |= (1 << PCIE0);    //enable PCMSK0 scan                                                 
   PCMSK0 |= (1 << PCINT0);  //Set pin D8 trigger an interrupt on state change. 
   PCMSK0 |= (1 << PCINT1);  //Set pin D9 trigger an interrupt on state change.                                             
   PCMSK0 |= (1 << PCINT2);  //Set pin D10 trigger an interrupt on state change.                                               
-  PCMSK0 |= (1 << PCINT3);  //Set pin D12 trigger an interrupt on state change.  
-  PCMSK0 |= (1 << PCINT4);  //Set pin D10 trigger an interrupt on state change.                                               
-  PCMSK0 |= (1 << PCINT5);  //Set pin D12 trigger an interrupt on state change. 
+  PCMSK0 |= (1 << PCINT4);  //Set pin D12 trigger an interrupt on state change.  
                                                  
                                                
   
   
   //Start the serial in order to see the result on the monitor
-  //Remember to select the same baud rate on the serial monitor
-  Serial.begin(9600);  
+    Serial.begin(9600);  
 
 }
 
@@ -60,13 +55,8 @@ void loop() {
    Serial.print("    ");
    Serial.print(input_PITCH);
    Serial.print("    ");
-   Serial.print(input_aux1);
-   Serial.print("    ");
-   Serial.print(input_aux2);
-   Serial.print("    ");
    Serial.println(input_THROTTLE);
- 
-   
+
   
 }
 
@@ -132,28 +122,5 @@ ISR(PCINT0_vect){
     last_CH4_state = 0;                                                  
     input_YAW = current_count - counter_4;                            
   }
-   ///////////////////////////////////////Channel 5
-  if(PINB & B00100000 ){                             //pin D13  -- B00010000                      
-    if(last_CH5_state == 0){                                               
-      last_CH5_state = 1;                                                   
-      counter_5 = current_count;                                              
-    }
-  }
-  else if(last_CH5_state == 1){                                             
-    last_CH5_state = 0;                                                  
-    input_aux1 = current_count - counter_5;                            
-  }
-
-
-  ///////////////////////////////////////Channel 6
-  if(PINB & B00001000 ){                             //pin D11  -- B00010000                      
-    if(last_CH6_state == 0){                                               
-      last_CH6_state = 1;                                                   
-      counter_6 = current_count;                                              
-    }
-  }
-  else if(last_CH6_state == 1){                                             
-    last_CH6_state = 0;                                                  
-    input_aux2 = current_count - counter_6;                            
-  }
+ 
 }
