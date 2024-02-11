@@ -77,7 +77,7 @@ void loop() {
     
   avg= sum/10;
   
-  
+  float filteredSignal= 0.956*yn1+0.0155*avg+0.0155*xn1;
   xn1=avg;
   yn1=filteredSignal;
 
