@@ -53,8 +53,8 @@ void setup() {
   
 
 
-  pid.begin(80 );             // initialize the PID instance
-  pid.setpoint(0);        // The "goal" the PID controller tries to "reach"
+  pid.begin();             // initialize the PID instance
+  pid.setpoint(30);        // The "goal" the PID controller tries to "reach"
   pid.tune(15, 9,30);     // Tune the PID, arguments: kP, kI, kD
   pid.limit(1350, 1500);
 }
@@ -66,8 +66,8 @@ void loop() {
     }
     
   avg= sum/10;
-  
-  
+   
+  float filteredSignal= 0.965*yn1+  0.0155*avg+0.0155*xn1;
   xn1=avg;
   yn1=filteredSignal;
 
