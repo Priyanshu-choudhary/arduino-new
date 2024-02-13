@@ -1,0 +1,46 @@
+#include <LiquidCrystal_I2C.h>
+LiquidCrystal_I2C lcd(0x3F, 16, 2); // I2C address 0x27, 16 column and 2 rows
+float caloff =0;
+float Sensitivity = 0.185;
+void setup() {
+  Serial.begin(9600);
+  analogReference(INTERNAL);
+
+  lcd.init(); // initialize the lcd
+  lcd.backlight();
+}
+float Volt(int pin,float factor,bool r){
+   float AcsValue = 0.0, Samples = 0.0, AvgAcs = 0.0;
+for (int x = 0; x < 100; x++) {  // Get 150 samples
+   int AcsValue = analogRead(pin);  
+    Samples = Samples + AcsValue;  // Add samples together
+    delay(2); // let ADC settle before following sample 3ms
+  }
+  AvgAcs = Samples / 100.0;
+  Samples=0;
+  float vout=(AvgAcs * (1.1 / 1024.0));
+  float volt = (vout*factor);
+  if(r){
+    return vout;
+  }else{
+return volt;
+}
+}
+void loop() {
+   
+  float AcsValueF = (2.52 - Volt(1,6.07143,false) )/ Sensitivity;
+  float voltage=Volt(2,12.0741,0);
+    Serial.println(voltage);
+
+  lcd.clear();                 // clear display
+  lcd.setCursor(0, 0);         // move cursor to   (0, 0)
+  lcd.print("A=");        // move cursor to   (2, 1)
+  lcd.print(AcsValueF); 
+  lcd.setCursor(9, 0);         // move cursor to   (0, 0)
+  lcd.print("P=");        // move cursor to   (2, 1)
+  lcd.print(AcsValueF*voltage);
+  lcd.setCursor(0, 1);
+  lcd.print("V=");        // move cursor to   (2, 1)
+  lcd.print(voltage);
+  delay(0);
+}
